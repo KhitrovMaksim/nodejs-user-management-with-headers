@@ -2,14 +2,11 @@
 
 ## 4. REST.
 
-### 4.1 User management.
+### 4.2 User management: dates fields.
 
 #### Task.
 
-Design and implement REST API for User management. With the following requirements
-
-1. User profile has a nickname (uniq), first name and last name fields.
-2. User profile is public information (protection is not required).
-3. Users can create profile. During creation they should provide a password.
-4. Users can change profile fields or password. This change should be protected by Basic Auth.
-5. User profiles list should have pagination.
+Continue your work with User Management REST Api.
+1. Add  tech field to user profile records: created_at, updated_at, deleted_at. These fields should not be exposed at REST.
+2. Add every user profile add header Last-Modified with value from updated_at.
+3. Protect profile changes from update without knowledge about the last resource state by checking If-Unmodified-Since header.have pagination.
