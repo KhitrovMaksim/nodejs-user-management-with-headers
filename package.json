@@ -1,7 +1,7 @@
 {
   "name": "nodejs-user-management",
-  "version": "1.0.0",
-  "description": "4.1 User management",
+  "version": "2.0.0",
+  "description": "4.2 User management",
   "author": "Maksim Khitrov <khitrov.maks@gmail.com>",
   "license": "MIT",
   "keywords": [
@@ -17,10 +17,10 @@
     "mongodb",
     "mongoose"
   ],
-  "homepage": "http://git.foxminded.ua/foxstudent103641/nodejs-user-management",
+  "homepage": "https://git.foxminded.ua/foxstudent103641/nodejs-user-management-with-headers",
   "repository": {
     "type": "git",
-    "url": "http://git.foxminded.ua/foxstudent103641/nodejs-user-management.git"
+    "url": "https://git.foxminded.ua/foxstudent103641/nodejs-user-management-with-headers"
   },
   "main": "server.js",
   "scripts": {

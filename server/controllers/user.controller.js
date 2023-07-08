@@ -11,6 +11,7 @@ class UserController {
         return res.json({ message: 'Registration error', errors });
       }
       const { nickname, firstname, lastname, password } = req.body;
+
       const userData = await userService.registration(nickname, firstname, lastname, password);
       return res.json({ user: userData, message: 'User successfully added' });
     } catch (error) {
@@ -43,13 +44,25 @@ class UserController {
         return res.status(401).json({ message: 'Permission denied', errors });
       }
 
-      const newUserData = new UserDto(req.body);
-      const { error, userData } = await userService.update(req.user.id, newUserData);
+      const unmodifiedSince = new Date(req.get('if-unmodified-since'));
+
+      if (!unmodifiedSince) {
+        return res.status(412).json({ message: 'If-Unmodified-Since header not exist', errors });
+      }
+
+      const newUserData = new UserDto({ ...req.body, _id: req.user.id });
+
+      const { error, userData } = await userService.update(newUserData, unmodifiedSince);
+
+      if (error === 'Precondition Failed') {
+        return res.status(412).json({ message: 'Check If-Unmodified-Since date' });
+      }
 
       if (error) {
         return res.json({ message: error });
       }
 
+      res.header('Last-Modified', new Date(userData.updated_at));
       return res.json({ userData, message: 'User successfully updated' });
     } catch (error) {
       logger.error(`Updating user error: ${error}`);

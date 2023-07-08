@@ -61,11 +61,15 @@ class UserService {
     return { token, userDto };
   }
 
-  async update(userId, newData) {
-    const user = await User.findOne({ _id: userId });
+  async update(newData, unmodifiedSince) {
+    const user = await User.findOne({ _id: newData.id });
 
     if (!user) {
       return { error: 'User not exist', user };
+    }
+
+    if (unmodifiedSince.getTime() < user.updated_at.getTime()) {
+      return { error: 'Precondition Failed', user };
     }
 
     const userData = new UserDto(user);
@@ -82,9 +86,10 @@ class UserService {
       password: !newData.password ? userData.password : getHashedPassword(newData.password),
       firstname: !newData.firstname ? userData.firstname : newData.firstname,
       lastname: !newData.lastname ? userData.lastname : newData.lastname,
+      updated_at: new Date().toISOString(),
     };
 
-    await User.updateOne({ _id: userId }, newUserData);
+    await User.updateOne({ _id: newData.id }, newUserData);
     return { error: null, userData: newUserData };
   }
 }

@@ -11,9 +11,10 @@ class AuthController {
       }
       const { nickname, password } = req.body;
 
-      const userData = await userService.login(nickname, password);
+      const { token, userDto: userData } = await userService.login(nickname, password);
 
-      return res.json({ userData, message: 'Token successfully generated' });
+      res.header('Last-Modified', userData.updatedAt);
+      return res.json({ token, userData, message: 'Token successfully generated' });
     } catch (error) {
       logger.error(`Authentication error: ${error}`);
       return res.status(400).json({ message: 'Registration error' });

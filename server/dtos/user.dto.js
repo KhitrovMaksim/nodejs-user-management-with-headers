@@ -9,6 +9,8 @@ class UserDto {
 
   password;
 
+  updatedAt;
+
   constructor(model) {
     // eslint-disable-next-line no-underscore-dangle
     this.id = model._id;
@@ -16,6 +18,7 @@ class UserDto {
     this.firstname = model.firstname;
     this.lastname = model.lastname;
     this.password = model.password;
+    this.updatedAt = model.updated_at;
   }
 }
 
