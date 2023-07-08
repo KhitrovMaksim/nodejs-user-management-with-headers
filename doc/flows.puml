@@ -12,13 +12,25 @@ Server -> Mongo : find all users
 Mongo --> Server : all users
 Server --> User: response: list of users
 deactivate Server
+User -> Server : request: /users?page=1&limit=5
+activate Server
+Server -> Mongo : find all users
+Mongo --> Server : all users
+Server --> User: response: page 1 with 5 users
+deactivate Server
 User -> Server : request: /registration
 activate Server
 Server -> Mongo : save user
 Mongo --> Server : saved user data
 Server --> User: response: new user data
 deactivate Server
-User -> Server : request: /update/nickname
+User -> Server : request: /login
+activate Server
+Server -> Mongo : find user
+Mongo --> Server :  user
+Server --> User: response: token & user data
+deactivate Server
+User -> Server : request: /update/id
 activate Server
 Server -> Mongo : update user
 Mongo --> Server : updated user data
